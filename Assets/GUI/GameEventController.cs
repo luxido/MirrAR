@@ -7,4 +7,9 @@ public class GameEventController : MonoBehaviour {
     {
         Debug.Log("Menu Click");
     }
+
+    public void buildClick()
+    {
+        Debug.Log("Build Click");
+    }
 }
