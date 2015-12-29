@@ -12,4 +12,9 @@ public class GameEventController : MonoBehaviour {
     {
         Debug.Log("Build Click");
     }
+
+    public void turnClick()
+    {
+        Debug.Log("Turn Click");
+    }
 }
