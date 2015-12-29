@@ -12,6 +12,7 @@ public class LevelEventController : MonoBehaviour {
                 Debug.Log("Case 1");
                 Mirror.totalMirrorAmount = 5;
                 Mirror.leftMirrorAmount = Mirror.totalMirrorAmount;
+                Mirror.amountLabel.GetComponent<Text>().text = Mirror.leftMirrorAmount + "";
                 break;
         }
     }

@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Mirror : MonoBehaviour {
     public static bool 
         createMirror = false, 
         buttonDown = false;
-    public static GameObject turnButton;
+    public static GameObject turnButton, amountLabel;
     public static int totalMirrorAmount = 0, leftMirrorAmount = 0;
 
     void Start() {
         turnButton = GameObject.Find("Game_MirrorTurnButton");
         turnButton.SetActive(false);
-        GameObject.Find("Game_MirrorDisplayAmountLabel").GetComponent<GUIText>().text = Mirror.leftMirrorAmount + "";
+        amountLabel = GameObject.Find("Game_MirrorDisplayAmountLabel");
+        GameObject.Find("Game").SetActive(false);
     }
 
     void Update() {
@@ -31,7 +33,7 @@ public class Mirror : MonoBehaviour {
                 GameObject.Find("Game_BuildPressedButton").SetActive(false);
 
                 leftMirrorAmount--;
-                GameObject.Find("Game_MirrorDisplayAmountLabel").GetComponent<GUIText>().text = Mirror.leftMirrorAmount + "";
+                GameObject.Find("Game_MirrorDisplayAmountLabel").GetComponent<Text>().text = Mirror.leftMirrorAmount + "";
             }
         }
 
