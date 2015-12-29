@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TurnMirror : MonoBehaviour
 {
     //selectMirror ist der Zustand, wo der Spiegel ausge
-    public bool mirrorSelected = false;
+    public bool mirrorSelected = false, moveMirrorState = false;
     private GameObject mirror;
 
     // Use this for initialization
@@ -27,6 +27,7 @@ public class TurnMirror : MonoBehaviour
                 mirrorSelected = true;
                 Debug.Log("Mirror selected");
                 Mirror.turnButton.SetActive(true);
+                Mirror.moveButton.SetActive(true);
             }
             else
             {
@@ -39,6 +40,11 @@ public class TurnMirror : MonoBehaviour
     {
         mirrorSelected = false;
         Mirror.turnButton.SetActive(false);
+
+        if (GameObject.Find("Game_MovePressedButton") != null)
+        {
+            GameObject.Find("Game_MovePressedButton").SetActive(false);
+        }
     }
 
     public void turnMirror()
@@ -58,11 +64,29 @@ public class TurnMirror : MonoBehaviour
         }
     }
 
+    public void enableMoveState()
+    {
+        moveMirrorState = true;
+    }
+
+    void moveMirror()
+    {
+        Debug.Log("Mirror Moved");
+        Vector3 a = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        a.Set(a.x, a.y, mirror.transform.position.z);
+        mirror.transform.position = Vector3.Lerp(mirror.transform.position, a, 0.01f); //dieser Teil funktioniert aktuell noch nicht
+    }
+
     void OnMouseDown()
     {
-        if(EventSystem.current.IsPointerOverGameObject())
+        if (EventSystem.current.IsPointerOverGameObject())
         {
             return;
+        }
+
+        if (moveMirrorState)
+        {
+            moveMirror();
         }
 
         turnMirrorOff();
