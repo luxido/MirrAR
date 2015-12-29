@@ -52,18 +52,12 @@ public class TurnMirror : MonoBehaviour
 
     void OnMouseDown()
     {
+        if(EventSystem.current.IsPointerOverGameObject())
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            Debug.Log("Mouse Down");
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Debug.Log(hit.collider.gameObject.name);
-                Debug.Log("TURN OFF");
-                turnMirrorOff();
-            }
+            return;
         }
+
+        turnMirrorOff();
     }
 }
 
