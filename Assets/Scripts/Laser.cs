@@ -17,7 +17,7 @@ public class Laser : MonoBehaviour {
         lineRenderer = GetComponent<LineRenderer>();
         startPos = transform.position;
         directionToGo = new Vector3(0, 0, 100);
-        int lastLaserNumber = 1;
+        lastLaserNumber = 1;
         lineRenderer.SetWidth(linewidth, linewidth);
 
     }
