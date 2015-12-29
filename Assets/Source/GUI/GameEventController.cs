@@ -20,5 +20,8 @@ public class GameEventController : MonoBehaviour {
     public void turnClick()
     {
         Debug.Log("Turn Click");
+        GameObject go = GameObject.Find("Ground");
+        TurnMirror other = (TurnMirror)go.GetComponent(typeof(TurnMirror));
+        other.turnMirror();
     }
 }
