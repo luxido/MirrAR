@@ -10,6 +10,8 @@ public class LevelEventController : MonoBehaviour {
         {
             case "Level 1":
                 Debug.Log("Case 1");
+                Mirror.totalMirrorAmount = 5;
+                Mirror.leftMirrorAmount = Mirror.totalMirrorAmount;
                 break;
         }
     }

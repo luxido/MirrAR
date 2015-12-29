@@ -5,10 +5,12 @@ public class Mirror : MonoBehaviour {
         createMirror = false, 
         buttonDown = false;
     public static GameObject turnButton;
+    public static int totalMirrorAmount, leftMirrorAmount;
 
     void Start() {
         turnButton = GameObject.Find("Game_MirrorTurnButton");
         turnButton.SetActive(false);
+        GameObject.Find("Game_MirrorDisplayPanel_AmountLabel").GetComponent<GUIText>().text = Mirror.leftMirrorAmount + "";
     }
 
     void Update() {
@@ -24,8 +26,12 @@ public class Mirror : MonoBehaviour {
                 obj.transform.SetParent(targetTransform, true);
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
                 createMirror = false;
+
                 GameEventController.buildButton.SetActive(true);
                 GameObject.Find("Game_BuildPressedButton").SetActive(false);
+
+                leftMirrorAmount--;
+                GameObject.Find("Game_MirrorDisplayPanel_AmountLabel").GetComponent<GUIText>().text = Mirror.leftMirrorAmount + "";
             }
         }
 
