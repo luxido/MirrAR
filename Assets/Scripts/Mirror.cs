@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Mirror : MonoBehaviour {
-    private bool createMirror = false;
+    private bool createMirror = false, buttonDown = false;
     public GameObject test;
     GameObject obj;
 
@@ -15,10 +15,11 @@ public class Mirror : MonoBehaviour {
             RaycastHit hit;
             if ((Physics.Raycast(ray, out hit) && hit.collider.gameObject.name == "Capsule")) {
                 createMirror = true;
+                buttonDown = true;
             }
         }
 
-        if (Input.GetMouseButtonUp(0) && createMirror) {
+        if (!buttonDown && createMirror && Input.GetMouseButtonDown(0)) {
             Debug.Log("createMirror");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -31,6 +32,10 @@ public class Mirror : MonoBehaviour {
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
                 createMirror = false;
             }
+        }
+
+        if(createMirror && Input.GetMouseButtonUp(0)) {
+            buttonDown = false;
         }
     }
 }
