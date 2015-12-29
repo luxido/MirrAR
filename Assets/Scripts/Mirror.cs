@@ -4,8 +4,11 @@ public class Mirror : MonoBehaviour {
     public static bool 
         createMirror = false, 
         buttonDown = false;
+    public static GameObject turnButton;
 
     void Start() {
+        turnButton = GameObject.Find("Game_MirrorTurnButton");
+        turnButton.SetActive(false);
     }
 
     void Update() {
