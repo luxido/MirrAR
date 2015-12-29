@@ -3,6 +3,8 @@ using System.Collections;
 
 public class GameEventController : MonoBehaviour {
 
+    public static GameObject buildButton;
+
 	public void menuClick()
     {
         Debug.Log("Menu Click");
@@ -10,7 +12,9 @@ public class GameEventController : MonoBehaviour {
 
     public void buildClick()
     {
-        Debug.Log("Build Click");
+        Mirror.createMirror = true;
+        Mirror.buttonDown = true;
+        buildButton = GameObject.Find("Game_BuildButton");
     }
 
     public void turnClick()
