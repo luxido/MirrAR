@@ -72,9 +72,14 @@ public class TurnMirror : MonoBehaviour
     void moveMirror()
     {
         Debug.Log("Mirror Moved");
-        Vector3 a = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-        a.Set(a.x, a.y, mirror.transform.position.z);
-        mirror.transform.position = Vector3.Lerp(mirror.transform.position, a, 0.01f); //dieser Teil funktioniert aktuell noch nicht
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            var targetPosition = hit.point;
+            mirror.transform.position = targetPosition;
+        }
     }
 
     void OnMouseDown()
