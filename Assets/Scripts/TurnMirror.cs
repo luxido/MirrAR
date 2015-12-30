@@ -34,7 +34,7 @@ public class TurnMirror : MonoBehaviour
         }
     }
 
-    void turnMirrorOff()
+    public void turnMirrorOff()
     {
         mirrorSelected = false;
         moveMirrorState = false;

@@ -5,7 +5,7 @@ public class Mirror : MonoBehaviour {
     public static bool 
         createMirror = false, 
         buttonDown = false;
-    public static GameObject turnButton, amountLabel, moveButton, buildButton;
+    public static GameObject turnButton, amountLabel, moveButton, buildButton, winPanel, levelPanel;
     public static int totalMirrorAmount = 0, leftMirrorAmount = 0;
 
     void Start() {
@@ -16,6 +16,10 @@ public class Mirror : MonoBehaviour {
         buildButton = GameObject.Find("Game_BuildButton");
         amountLabel = GameObject.Find("Game_MirrorDisplayAmountLabel");
         GameObject.Find("Game").SetActive(false);
+        winPanel = GameObject.Find("GameEnd");
+        winPanel.SetActive(false);
+        levelPanel = GameObject.Find("LevelMenu");
+        levelPanel.SetActive(false);
     }
 
     void Update() {
