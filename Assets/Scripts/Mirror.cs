@@ -5,12 +5,15 @@ public class Mirror : MonoBehaviour {
     public static bool 
         createMirror = false, 
         buttonDown = false;
-    public static GameObject turnButton, amountLabel;
+    public static GameObject turnButton, amountLabel, moveButton, buildButton;
     public static int totalMirrorAmount = 0, leftMirrorAmount = 0;
 
     void Start() {
         turnButton = GameObject.Find("Game_MirrorTurnButton");
         turnButton.SetActive(false);
+        moveButton = GameObject.Find("Game_MoveButton");
+        moveButton.SetActive(false);
+        buildButton = GameObject.Find("Game_BuildButton");
         amountLabel = GameObject.Find("Game_MirrorDisplayAmountLabel");
         GameObject.Find("Game").SetActive(false);
     }
@@ -29,7 +32,7 @@ public class Mirror : MonoBehaviour {
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
                 createMirror = false;
 
-                GameEventController.buildButton.SetActive(true);
+                buildButton.SetActive(true);
                 GameObject.Find("Game_BuildPressedButton").SetActive(false);
 
                 leftMirrorAmount--;

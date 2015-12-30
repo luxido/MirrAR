@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GameEventController : MonoBehaviour {
 
     public static GameObject buildButton;
-    public static bool turnButtonClicked;
+    private TurnMirror eventClass;
+
+    void Start()
+    {
+        GameObject go = GameObject.Find("Ground");
+        eventClass = (TurnMirror)go.GetComponent(typeof(TurnMirror));
+    }
 
 	public void menuClick()
     {
@@ -15,16 +20,17 @@ public class GameEventController : MonoBehaviour {
     {
         Mirror.createMirror = true;
         Mirror.buttonDown = true;
-        buildButton = GameObject.Find("Game_BuildButton");
     }
 
     public void turnClick()
     {
-        turnButtonClicked = true;
         Debug.Log("Turn Click");
-        GameObject go = GameObject.Find("Ground");
-        TurnMirror other = (TurnMirror)go.GetComponent(typeof(TurnMirror));
-        other.turnMirror();
-        turnButtonClicked = false;
+        eventClass.turnMirror();
+    }
+
+    public void moveClick()
+    {
+        Debug.Log("Move Click");
+        eventClass.enableMoveState();
     }
 }
