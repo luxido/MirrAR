@@ -4,21 +4,15 @@ using System.Collections.Generic;
 
 public class Laser : MonoBehaviour {
     LineRenderer lineRenderer;
-    GameObject target;
     GameObject generator;
     private float linewidth = 10.0f;
     public Vector3 directionToGo;
     public int lastLaserNumber;
-    public Vector3 startPos;
-    private bool newLaser;
     public Vector3[] positions;
 
     public void Start() {
-        newLaser = false;
-        target = GameObject.Find("TargetPrefab");
         generator = GameObject.Find("LaserGeneratorPrefab");
         lineRenderer = GetComponent<LineRenderer>();
-        startPos = transform.position;
         directionToGo = new Vector3(0, 0, 100);
         lastLaserNumber = 1;
         lineRenderer.SetWidth(linewidth, linewidth);
@@ -62,10 +56,6 @@ public class Laser : MonoBehaviour {
             }
 
         }
-        /*
-            if (!(hit.transform.gameObject.layer == LayerMask.NameToLayer("Mirror"))) {
-            //
-        }*/
     }
 }
 
