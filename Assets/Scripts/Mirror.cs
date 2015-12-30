@@ -25,9 +25,12 @@ public class Mirror : MonoBehaviour {
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit)) {
-                Vector3 position = hit.point + new Vector3(0, 100, 0);
-                GameObject obj = Instantiate(Resources.Load("MirrorPrefab"), position, transform.rotation) as GameObject;
                 Transform targetTransform = GameObject.Find("ImageTarget").transform;
+                Transform generator = GameObject.Find("LaserGeneratorPrefab").transform;
+                //Vector3 position = hit.point + new Vector3(0, 100, 0);/
+                Vector3 position = new Vector3(hit.point.x, generator.position.y, hit.point.z);
+                GameObject obj = Instantiate(Resources.Load("MirrorPrefab"), position, transform.rotation) as GameObject;
+                
                 obj.transform.SetParent(targetTransform, true);
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
 

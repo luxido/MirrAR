@@ -76,8 +76,9 @@ public class TurnMirror : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
-            var targetPosition = hit.point;
+            Vector3 targetPosition = new Vector3(hit.point.x, mirror.transform.position.y, hit.point.z) ;
             mirror.transform.position = targetPosition;
+
             //Laser aktualisieren
             GameObject go = GameObject.Find("LaserGeneratorPrefab");
             Laser other = (Laser)go.GetComponent(typeof(Laser));
