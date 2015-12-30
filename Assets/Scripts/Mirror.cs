@@ -30,6 +30,13 @@ public class Mirror : MonoBehaviour {
                 Transform targetTransform = GameObject.Find("ImageTarget").transform;
                 obj.transform.SetParent(targetTransform, true);
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
+
+                //Laser aktualisieren
+                GameObject go = GameObject.Find("LaserGeneratorPrefab");
+                Laser other = (Laser)go.GetComponent(typeof(Laser));
+                other.Start();
+                other.drawLaserLine();
+
                 createMirror = false;
 
                 buildButton.SetActive(true);

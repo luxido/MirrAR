@@ -3,19 +3,31 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Laser : MonoBehaviour {
-    LineRenderer lineRenderer;
+    LineRenderer [] lineRenderer;
     GameObject generator;
     private float linewidth = 10.0f;
     public Vector3 directionToGo;
     public int lastLaserNumber;
     public Vector3[] positions;
+    GameObject[] newLine;// 
 
     public void Start() {
         generator = GameObject.Find("LaserGeneratorPrefab");
-        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer = new LineRenderer[10];
+        //newLine = new GameObject[10];
+        for (int i = 0; i < lineRenderer.Length; i++) {
+            if (GameObject.Find("Line " + i) !=null) {
+                DestroyImmediate(GameObject.Find("Line " + i));
+            }//
+           // newLine[i] = new GameObject("Line " + i);
+            lineRenderer[i] = new GameObject("Line " + i).AddComponent<LineRenderer>();
+            lineRenderer[i].SetWidth(linewidth, linewidth);
+            lineRenderer[i].SetPosition(0, new Vector3(0, 0, 0));
+            lineRenderer[i].SetPosition(1, new Vector3(0, 0, 0));
+        }
+        //lineRenderer[0] = GetComponent<LineRenderer>();
         directionToGo = new Vector3(0, 0, 100);
         lastLaserNumber = 1;
-        lineRenderer.SetWidth(linewidth, linewidth);
         positions = new Vector3[10];
 
     }
@@ -30,8 +42,9 @@ public class Laser : MonoBehaviour {
         Vector3 direction = transform.TransformDirection(directionToGo);
         //Erstmal abfragen, ob es nur ein Laserstrahl gibt, damit die positions nicht immer neu gesetzt werden
         if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity) && lastLaserNumber == 1) {
-            lineRenderer.SetPosition(0, transform.position);
-            lineRenderer.SetPosition(1, hit.point);
+            lineRenderer[0].SetWidth(linewidth, linewidth); 
+            lineRenderer[0].SetPosition(0, transform.position);
+            lineRenderer[0].SetPosition(1, hit.point);
             //Wenn ein Mirror getroffen wird, gibt es ein Laserstrahl mehr
             if (hit.collider.tag == "Mirror") {
                 lastLaserNumber++;
@@ -42,19 +55,16 @@ public class Laser : MonoBehaviour {
                     directionToGo = Vector3.Reflect((positions[i] - positions[i - 1]).normalized, hit.normal);
                     direction = transform.TransformDirection(directionToGo);
                     if (Physics.Raycast(positions[i], direction, out hit, Mathf.Infinity)) {
-                        lineRenderer.SetVertexCount(lastLaserNumber + 1);
-                        lineRenderer.SetPosition(lastLaserNumber, hit.point);
+                        lineRenderer[i].SetPosition(0, positions[i]);
+                        lineRenderer[i].SetPosition(1, hit.point);
                         //Wenn ein Mirror getroffen wird, gibt es ein Laserstrahl mehr
                         if ((hit.collider.tag == "Mirror")) {   
                             positions[lastLaserNumber] = hit.point;
                             lastLaserNumber++;
-
                         }
-
                     }
                 }
             }
-
         }
     }
 }

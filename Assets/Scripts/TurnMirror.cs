@@ -53,9 +53,8 @@ public class TurnMirror : MonoBehaviour
         {
             Debug.Log("Mirror Turned");
             mirror.transform.rotation *= Quaternion.Euler(0, 45.0f, 0);
-
-
-            ////////TESTTTTT
+            
+            //Laser aktualisieren
             GameObject go = GameObject.Find("LaserGeneratorPrefab");
             Laser other = (Laser)go.GetComponent(typeof(Laser));
             other.Start();
@@ -79,6 +78,11 @@ public class TurnMirror : MonoBehaviour
         {
             var targetPosition = hit.point;
             mirror.transform.position = targetPosition;
+            //Laser aktualisieren
+            GameObject go = GameObject.Find("LaserGeneratorPrefab");
+            Laser other = (Laser)go.GetComponent(typeof(Laser));
+            other.Start();
+            other.drawLaserLine();
         }
     }
 
