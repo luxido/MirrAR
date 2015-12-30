@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public class TurnMirror : MonoBehaviour
 {
-    //selectMirror ist der Zustand, wo der Spiegel ausge
+    //selectMirror ist der Zustand, wo der Spiegel ausgewaehlt wurde
     public bool mirrorSelected = false, moveMirrorState = false;
     private GameObject mirror;
 
@@ -39,7 +37,9 @@ public class TurnMirror : MonoBehaviour
     void turnMirrorOff()
     {
         mirrorSelected = false;
+        moveMirrorState = false;
         Mirror.turnButton.SetActive(false);
+        Mirror.moveButton.SetActive(false);
 
         if (GameObject.Find("Game_MovePressedButton") != null)
         {
