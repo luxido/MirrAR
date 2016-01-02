@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Laser : MonoBehaviour {
     LineRenderer [] lineRenderer;
     GameObject generator;
+    GameObject[] target;
+    public static int targetAmount;
     private float linewidth = 10.0f;
     public Vector3 directionToGo;
     public int lastLaserNumber;
@@ -66,6 +67,30 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void initTargets(int amount)
+    {
+        targetAmount = amount;
+        target = new GameObject[amount];
+
+        for (int i = 0; i < target.Length; i++)
+        {
+            if (GameObject.Find("Target " + i) != null)
+            {
+                DestroyImmediate(GameObject.Find("Target " + i));
+            }
+            target[i] = (GameObject)Instantiate(Resources.Load("TargetPrefab"), Vector3.zero, Quaternion.identity);
+            target[i].name = "Target " + i;
+        }
+    }
+
+    private void laserHitEnd()
+    {
+        //Überprüfen ob der Laser alle Targets trifft.
+        //Überprüfen ob es ein weiteres Level gibt. Wenn nicht muss der "Next Level" Button deaktiviert werden.
+        
+        //Mirror.nextLevelButton.GetComponent<Button>().interactable = false; um den Next Level Button zu deaktivieren
     }
 }
 

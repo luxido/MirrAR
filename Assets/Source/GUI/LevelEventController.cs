@@ -4,10 +4,19 @@ using UnityEngine.UI;
 public class LevelEventController : MonoBehaviour {
 
     public static int currentLevel;
+    GameObject go;
+    GameObject laser;
+
+    public void Start()
+    {
+        go = GameObject.Find("Ground");
+        laser = GameObject.Find("LaserGeneratorPrefab"); //ggf. sollte das Laser.cs ebenfalls in Ground rein damit das einheitlich ist, oder?
+    }
 
 	public void clickLevel(string level)
     {
         bool foundLevel = false;
+        int targetAmount = 0;
 
         switch(level)
         {
@@ -16,6 +25,7 @@ public class LevelEventController : MonoBehaviour {
                 foundLevel = true;
                 int.TryParse(level, out currentLevel);
                 Mirror.totalMirrorAmount = 5;
+                targetAmount = 1;
                 break;
             case "replayLevel":
                 clickLevel(currentLevel + "");
@@ -33,10 +43,13 @@ public class LevelEventController : MonoBehaviour {
         {
             Mirror.leftMirrorAmount = Mirror.totalMirrorAmount;
             Mirror.amountLabel.GetComponent<Text>().text = Mirror.leftMirrorAmount + "";
+
+            //Sets the amount of targets
+            Laser laserClass = (Laser)laser.GetComponent(typeof(Laser));
+            laserClass.initTargets(targetAmount);
         }
 
         //To make sure everything has been reset
-        GameObject go = GameObject.Find("Ground");
         TurnMirror eventClass = (TurnMirror)go.GetComponent(typeof(TurnMirror));
         eventClass.turnMirrorOff();
     }
