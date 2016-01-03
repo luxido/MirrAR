@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Mirror : MonoBehaviour {
     public static bool 
         createMirror = false, 
         buttonDown = false;
-    public static GameObject turnButton, amountLabel, moveButton, buildButton, winPanel, levelPanel, nextLevelButton;
+    public static GameObject turnButton, amountLabel, moveButton, buildButton, winPanel, levelPanel, nextLevelButton; 
+        //Idee: eventuell sollten wir eine Main-Class schreiben, die alle static vars hält, oder was sagst du dazu? Diese müsste dann mit als erstes geladen werden.
     public static int totalMirrorAmount = 0, leftMirrorAmount = 0;
+    private GameObject lastCreatedMirror;
 
     void Start() {
         turnButton = GameObject.Find("Game_MirrorTurnButton");
@@ -23,8 +26,10 @@ public class Mirror : MonoBehaviour {
         levelPanel.SetActive(false);
     }
 
+    //vermutlich sollten wir das in eine onMouseClick umwandeln um die Performance zu verbessern. Diese Funktion ist ja nur relevant
+    //wenn die Maustaste auch wirklich geklickt wurde
     void Update() {
-        if (!buttonDown && createMirror && Input.GetMouseButtonDown(0)) {
+        if (!buttonDown && createMirror && Input.GetMouseButtonDown(0) && leftMirrorAmount > 0) {
             Debug.Log("createMirror");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -38,6 +43,7 @@ public class Mirror : MonoBehaviour {
                 
                 obj.transform.SetParent(targetTransform, true);
                 obj.transform.localScale = new Vector3(0.1f, 0.1f, 0.02f);
+                lastCreatedMirror = obj;
 
                 //Laser aktualisieren
                 GameObject go = GameObject.Find("LaserGeneratorPrefab");
@@ -58,5 +64,15 @@ public class Mirror : MonoBehaviour {
         if(createMirror && Input.GetMouseButtonUp(0)) {
             buttonDown = false;
         }
+    }
+
+    //Funktioniert leider zurzeit nicht. Diese Methode soll den letzten erstellten Spiegel zerstören. Aktuelles Problem: 
+    //Spiegel darf nur erstellt werden, wenn die Maus nicht über der GUI ist.
+    public void destroyLastMirror()
+    {
+        Debug.Log("Destroy Mirror");
+        Destroy(lastCreatedMirror);
+        createMirror = false;
+        buttonDown = false;
     }
 }
