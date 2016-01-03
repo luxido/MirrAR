@@ -4,11 +4,13 @@ public class GameEventController : MonoBehaviour {
 
     public static GameObject buildButton;
     private TurnMirror eventClass;
+    private Mirror mirrorClass;
 
     void Start()
     {
         GameObject go = GameObject.Find("Ground");
         eventClass = (TurnMirror)go.GetComponent(typeof(TurnMirror));
+        mirrorClass = (Mirror)go.GetComponent(typeof(Mirror));
     }
 
 	public void menuClick()
@@ -20,6 +22,11 @@ public class GameEventController : MonoBehaviour {
     {
         Mirror.createMirror = true;
         Mirror.buttonDown = true;
+    }
+
+    public void buildCancelClick()
+    {
+        mirrorClass.destroyLastMirror();
     }
 
     public void turnClick()
