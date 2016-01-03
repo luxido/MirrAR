@@ -9,23 +9,20 @@ public class Laser : MonoBehaviour {
     public Vector3 directionToGo;
     public int lastLaserNumber;
     public Vector3[] positions;
-    GameObject[] newLine;// 
 
     public void Start() {
         generator = GameObject.Find("LaserGeneratorPrefab");
         lineRenderer = new LineRenderer[10];
-        //newLine = new GameObject[10];
+        //Falls es noch alte Lines gibt, diese löschen
         for (int i = 0; i < lineRenderer.Length; i++) {
             if (GameObject.Find("Line " + i) !=null) {
                 DestroyImmediate(GameObject.Find("Line " + i));
-            }//
-           // newLine[i] = new GameObject("Line " + i);
+            }
             lineRenderer[i] = new GameObject("Line " + i).AddComponent<LineRenderer>();
             lineRenderer[i].SetWidth(linewidth, linewidth);
             lineRenderer[i].SetPosition(0, new Vector3(0, 0, 0));
             lineRenderer[i].SetPosition(1, new Vector3(0, 0, 0));
         }
-        //lineRenderer[0] = GetComponent<LineRenderer>();
         directionToGo = new Vector3(0, 0, 100);
         lastLaserNumber = 1;
         positions = new Vector3[10];
@@ -45,8 +42,12 @@ public class Laser : MonoBehaviour {
             lineRenderer[0].SetWidth(linewidth, linewidth); 
             lineRenderer[0].SetPosition(0, transform.position);
             lineRenderer[0].SetPosition(1, hit.point);
+            //Wurde das Ziel erreicht?
+            if (hit.collider.tag =="Target") {
+                Debug.Log("You Win");
+            }
             //Wenn ein Mirror getroffen wird, gibt es ein Laserstrahl mehr
-            if (hit.collider.tag == "Mirror") {
+            else if (hit.collider.tag == "Mirror") {
                 lastLaserNumber++;
                 positions[1] = hit.point;
                 positions[0] = transform.position;
@@ -57,8 +58,12 @@ public class Laser : MonoBehaviour {
                     if (Physics.Raycast(positions[i], direction, out hit, Mathf.Infinity)) {
                         lineRenderer[i].SetPosition(0, positions[i]);
                         lineRenderer[i].SetPosition(1, hit.point);
+                        //Wurde das Ziel getroffen?
+                        if (hit.collider.tag == "Target") {
+                            Debug.Log("You Win");
+                        }
                         //Wenn ein Mirror getroffen wird, gibt es ein Laserstrahl mehr
-                        if ((hit.collider.tag == "Mirror")) {   
+                        else if ((hit.collider.tag == "Mirror")) {   
                             positions[lastLaserNumber] = hit.point;
                             lastLaserNumber++;
                         }

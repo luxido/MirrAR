@@ -8,16 +8,19 @@ public class TurnMirror : MonoBehaviour
     //selectMirror ist der Zustand, wo der Spiegel ausge
     public bool mirrorSelected = false, moveMirrorState = false;
     private GameObject mirror;
+    GameObject ground;
+    Mirror mirrorScript;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start(){
+        GameObject ground = GameObject.Find("Ground");
+        Mirror mirrorScript = (Mirror)ground.GetComponent(typeof(Mirror));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!mirrorSelected && Input.GetMouseButtonDown(0))
+        if (!mirrorSelected && Input.GetMouseButtonDown(0) && Mirror.createMirror)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -40,7 +43,6 @@ public class TurnMirror : MonoBehaviour
     {
         mirrorSelected = false;
         Mirror.turnButton.SetActive(false);
-
         if (GameObject.Find("Game_MovePressedButton") != null)
         {
             GameObject.Find("Game_MovePressedButton").SetActive(false);
