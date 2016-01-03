@@ -18,7 +18,7 @@ public class TurnMirror : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!mirrorSelected && Input.GetMouseButtonDown(0) && Mirror.createMirror)
+        if (!mirrorSelected && Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
