@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Laser : MonoBehaviour {
     LineRenderer [] lineRenderer;
-    GameObject generator; //würde es nicht Sinn machen diese evtl. auch in einen Array zu speichern um damit möglichst dynamisch zu bleiben?
+    GameObject generator;
     GameObject[] target;
     public static int targetAmount;
     private float linewidth = 10.0f;
@@ -66,30 +66,17 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
+
+        laserHitEnd();
     }
 
-    //Erstellt das Target, zurzeit stimmt aber leider nicht die y-Achse. Aus irgendeinen Grund nimmt diese einen anderen Wert an
-    //als vorgegeben. An welcher Stelle muss man dem Objekt noch die Zuweisung geben, sodass es auch wirklich die "0.1" animmt?
     public void initTargets(int amount)
     {
         targetAmount = amount;
         target = new GameObject[amount];
-        GameObject parent = GameObject.Find("ImageTarget");
-
-        for (int i = 0; i < target.Length; i++)
-        {
-            if (GameObject.Find("Target " + i) != null)
-            {
-                DestroyImmediate(GameObject.Find("Target " + i));
-            }
-            target[i] = Instantiate(Resources.Load("TargetPrefab"), new Vector3(0, 0.1f, 0), transform.rotation) as GameObject;
-            target[i].name = "Target " + i;
-            target[i].transform.SetParent(parent.transform, true);
-            target[i].transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-        }
     }
 
-    private void laserHitEnd()
+    void laserHitEnd()
     {
         //Überprüfen ob der Laser alle Targets trifft.
         //Überprüfen ob es ein weiteres Level gibt. Wenn nicht muss der "Next Level" Button deaktiviert werden.
