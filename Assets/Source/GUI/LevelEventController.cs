@@ -21,7 +21,7 @@ public class LevelEventController : MonoBehaviour {
         switch(level)
         {
             case "1":
-                Debug.Log("Level 1");
+                //Debug.Log("Level 1");
                 foundLevel = true;
                 int.TryParse(level, out currentLevel);
                 Mirror.totalMirrorAmount = 5;

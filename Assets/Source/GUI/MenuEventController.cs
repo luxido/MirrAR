@@ -5,7 +5,7 @@ public class MenuEventController : MonoBehaviour {
 
     public void clickPlay()
     {
-        Debug.Log("test");
+        //Debug.Log("test");
     }
 
     public void clickExit()
