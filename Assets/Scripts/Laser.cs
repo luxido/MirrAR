@@ -66,9 +66,9 @@ public class Laser : MonoBehaviour {
 
                         //prüft ob gameobject mit dem Namen "TargetPrefab" + j" gehittet wurde
                         for (int j = 0; j < targetHit.Length; j++) {
-                            if(hit.collider.gameObject.name == "TargetPrefab" + j) {
+                            if(hit.collider.gameObject.name == "Targetprefab" + j) {
                                 targetHit[j] = true;
-                                //Debug.Log("Target Hit"+j);
+                                Debug.Log("Target Hit"+j);
                             }
                         }
                     } else if (hit.collider.tag == "Mirror") {
@@ -95,7 +95,7 @@ public class Laser : MonoBehaviour {
         }
 
         if (laserHitEnd()) {
-            //Debug.Log("all targets were hit");
+            Debug.Log("all targets were hit");//
             Mirror.winPanel.SetActive(true);
         } /*else {
             Debug.Log("not all targets were hit");
