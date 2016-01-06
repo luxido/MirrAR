@@ -11,9 +11,11 @@ public class Laser : MonoBehaviour {
     public int lastLaserPoint;
     public Vector3[] positions;
     public bool[] targetHit;
+    public GameObject generatorTracker;
 
     public void Start() {
         generator = GameObject.Find("LaserGeneratorPrefab");
+        generatorTracker = GameObject.Find("FrameMarker2 - Generator");
         lineRenderer = new LineRenderer[10];
         //Falls es noch alte Lines gibt, diese löschen
         for (int i = 0; i < lineRenderer.Length; i++) {
@@ -21,6 +23,7 @@ public class Laser : MonoBehaviour {
                 DestroyImmediate(GameObject.Find("Line " + i));
             }
             lineRenderer[i] = new GameObject("Line " + i).AddComponent<LineRenderer>();
+            GameObject.Find("Line " + i).transform.SetParent(generatorTracker.transform);
             lineRenderer[i].SetWidth(linewidth, linewidth);
             lineRenderer[i].SetPosition(0, new Vector3(0, 0, 0));
             lineRenderer[i].SetPosition(1, new Vector3(0, 0, 0));
@@ -37,6 +40,7 @@ public class Laser : MonoBehaviour {
     }
 
     public void Update() {
+        Start();
         drawLaserLine();
     }
 
@@ -91,10 +95,11 @@ public class Laser : MonoBehaviour {
         }
 
         if (laserHitEnd()) {
-            Debug.Log("all targets were hit");
-        } else {
+            //Debug.Log("all targets were hit");
+            Mirror.winPanel.SetActive(true);
+        } /*else {
             Debug.Log("not all targets were hit");
-        }
+        }*/
     }
 
     public void initTargets(int amount) {
