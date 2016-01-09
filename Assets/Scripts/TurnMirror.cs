@@ -59,8 +59,12 @@ public class TurnMirror : MonoBehaviour
         if (mirrorSelected)
         {
             Debug.Log("Mirror Turned");
+            Transform oldParent = mirror.transform.parent;
+            mirror.transform.parent = null;
             mirror.transform.rotation *= Quaternion.Euler(0, 45.0f, 0);
-            
+            mirror.transform.parent = oldParent;
+
+
             //Laser aktualisieren
             GameObject go = GameObject.Find("LaserGeneratorPrefab");
             Laser other = (Laser)go.GetComponent(typeof(Laser));
@@ -81,10 +85,12 @@ public class TurnMirror : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit))
-        {
-            Vector3 targetPosition = new Vector3(hit.point.x, mirror.transform.position.y, hit.point.z) ;
+        if (Physics.Raycast(ray, out hit)){
+            Transform oldParent = mirror.transform.parent;
+            mirror.transform.parent = null;
+            Vector3 targetPosition = new Vector3(hit.point.x, mirror.transform.position.y, hit.point.z);
             mirror.transform.position = targetPosition;
+            mirror.transform.parent = oldParent;
 
             //Laser aktualisieren
             GameObject go = GameObject.Find("LaserGeneratorPrefab");

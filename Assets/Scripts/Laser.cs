@@ -6,7 +6,7 @@ public class Laser : MonoBehaviour {
     GameObject generator;
     GameObject[] target;
     public static int targetAmount;
-    private float linewidth = 10.0f;
+    private float linewidth = 5.0f;
     public Vector3 directionToGo;
     public int lastLaserPoint;
     public Vector3[] positions;
@@ -40,8 +40,15 @@ public class Laser : MonoBehaviour {
     }
 
     public void Update() {
-        Start();
-        drawLaserLine();
+        if (laserHitEnd()) {
+            //Debug.Log("all targets were hit");//
+            Mirror.winPanel.SetActive(true);
+        } else {
+            //Debug.Log("not all targets were hit");
+            Start();
+            drawLaserLine();
+        }
+        
     }
 
     public void drawLaserLine() {
@@ -94,12 +101,7 @@ public class Laser : MonoBehaviour {
             }
         }
 
-        if (laserHitEnd()) {
-            Debug.Log("all targets were hit");//
-            Mirror.winPanel.SetActive(true);
-        } /*else {
-            Debug.Log("not all targets were hit");
-        }*/
+        
     }
 
     public void initTargets(int amount) {
