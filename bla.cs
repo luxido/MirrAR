@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class Laser : MonoBehaviour {
@@ -17,7 +17,7 @@ public class Laser : MonoBehaviour {
         generator = GameObject.Find("LaserGeneratorPrefab");
         generatorTracker = GameObject.Find("FrameMarker2 - Generator");
         lineRenderer = new LineRenderer[10];
-        //Falls es noch alte Lines gibt, diese löschen
+        //Falls es noch alte Lines gibt, diese l�schen
         for (int i = 0; i < lineRenderer.Length; i++) {
             if (GameObject.Find("Line " + i) != null) {
                 DestroyImmediate(GameObject.Find("Line " + i));
@@ -31,7 +31,7 @@ public class Laser : MonoBehaviour {
         directionToGo = new Vector3(0, 0, 100);
         lastLaserPoint = 1;
         positions = new Vector3[10];
-        targetAmount = 3; /////jetzt nur testweise
+        targetAmount = 2; /////jetzt nur testweise
         targetHit = new bool[targetAmount];
         for (int j = 0; j < targetHit.Length; j++) {
             targetHit[j] = false;
@@ -62,7 +62,7 @@ public class Laser : MonoBehaviour {
                 for (int j = 0; j < targetHit.Length; j++) {
                     if (hit.collider.gameObject.name == "Targetprefab" + j) {
                         targetHit[j] = true;
-                        //Debug.Log("Target Hit" + j);
+                        Debug.Log("Target Hit" + j);
                     }
                 }
             }
@@ -75,32 +75,36 @@ public class Laser : MonoBehaviour {
                 positions[0] = transform.position;
                 lineRenderer[0].SetPosition(0, positions[0]);
                 lineRenderer[0].SetPosition(1, positions[1]);
+                Debug.Log("linie 0 gesetzt");
             }
 
             //
             if (hit.collider.tag == "Mirror") {
                 lastLaserPoint++;
                 for (int i = 1; i < lastLaserPoint; i++) {
+                    Debug.Log("linie " + i + "gesetzt");
                     directionToGo = Vector3.Reflect((positions[i] - positions[i - 1]).normalized, hit.normal);
                     direction = transform.TransformDirection(directionToGo);
 
+                    
                     if (Physics.Raycast(positions[i], direction, out hit, Mathf.Infinity)) {
+                        positions[i + 1] = hit.point;
+                        lineRenderer[i].SetPosition(0, positions[i]);
+                        lineRenderer[i].SetPosition(1, positions[i + 1]);
                         if (hit.collider.tag == "Target") {
                             for (int j = 0; j < targetHit.Length; j++) {
                                 if (hit.collider.gameObject.name == "Targetprefab" + j) {
                                     targetHit[j] = true;
-                                    Debug.Log("Target Hit" + j);
+                                    //Debug.Log("Target Hit" + j);
                                 }
                             }
                         }
                     }
                     if (Physics.Raycast(positions[i], direction, out hit, Mathf.Infinity, targetMask)) {
                         //Wenn ein Mirror getroffen wird, gibt es ein Laserstrahl mehr//
-                        positions[i + 1] = hit.point;
-                        lineRenderer[i].SetPosition(0, positions[i]);
-                        lineRenderer[i].SetPosition(1, positions[i + 1]);
                         if ((hit.collider.tag == "Mirror")) {
                             lastLaserPoint++;
+                            Debug.Log("lastlaserpoint: " + lastLaserPoint);
                         }
                     }
                 }
@@ -119,7 +123,7 @@ public class Laser : MonoBehaviour {
         bool allHit = true;
         for (int i = 0; i < targetHit.Length; i++) {
             if (targetHit[i] == false) {
-                allHit = false;//
+                allHit = false;
                 break;
             }
         }
