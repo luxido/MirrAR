@@ -12,11 +12,10 @@ public class Laser : MonoBehaviour {
     public Vector3[] positions;
     public bool[] targetHit;
     public GameObject generatorTracker;
-    public GameObject winPanel;
       
    
     public void Start() {
-        winPanel.SetActive(false);
+        Mirror.winPanel.SetActive(false);
         generator = GameObject.Find("LaserGeneratorPrefab");
         generatorTracker = GameObject.Find("FrameMarker2 - Generator");
         lineRenderer = new LineRenderer[10];
@@ -44,7 +43,7 @@ public class Laser : MonoBehaviour {
     public void Update() {
         if (laserHitEnd()) {
             //Debug.Log("all targets were hit");//
-            winPanel.SetActive(true);
+            Mirror.winPanel.SetActive(true);
         } else {
             //Debug.Log("not all targets were hit");
             Start();
