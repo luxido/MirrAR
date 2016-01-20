@@ -12,8 +12,11 @@ public class Laser : MonoBehaviour {
     public Vector3[] positions;
     public bool[] targetHit;
     public GameObject generatorTracker;
+    public GameObject winPanel;
+      
    
     public void Start() {
+        winPanel.SetActive(false);
         generator = GameObject.Find("LaserGeneratorPrefab");
         generatorTracker = GameObject.Find("FrameMarker2 - Generator");
         lineRenderer = new LineRenderer[10];
@@ -31,7 +34,7 @@ public class Laser : MonoBehaviour {
         directionToGo = new Vector3(0, 0, 100);
         lastLaserPoint = 1;
         positions = new Vector3[10];
-        targetAmount = 3; /////jetzt nur testweise
+        targetAmount = 4; /////jetzt nur testweise
         targetHit = new bool[targetAmount];
         for (int j = 0; j < targetHit.Length; j++) {
             targetHit[j] = false;
@@ -41,10 +44,9 @@ public class Laser : MonoBehaviour {
     public void Update() {
         if (laserHitEnd()) {
             //Debug.Log("all targets were hit");//
-            Mirror.winPanel.SetActive(true);
+            winPanel.SetActive(true);
         } else {
             //Debug.Log("not all targets were hit");
-            //StartCoroutine(testWait());
             Start();
             drawLaserLine();
         }
@@ -62,7 +64,7 @@ public class Laser : MonoBehaviour {
             if (hit.collider.tag == "Target") {
                 for (int j = 0; j < targetHit.Length; j++) {
                     if (hit.collider.gameObject.name == "Targetprefab" + j) {
-                        targetHit[j] = true;
+                        //targetHit[j] = true;
                         //Debug.Log("Target Hit" + j);
                     }
                 }
@@ -73,7 +75,7 @@ public class Laser : MonoBehaviour {
         if (Physics.Raycast(transform.position, direction, out hit, Mathf.Infinity, targetMask) && lastLaserPoint == 1) {
             if (hit.collider.tag != "Target") {
                 lineRenderer[0].SetWidth(linewidth, linewidth);
-                Debug.Log("direction0: " + direction);
+                //Debug.Log("direction0: " + direction);
                 positions[1] = hit.point;
                 positions[1].y = transform.position.y;
                 positions[0] = transform.position;
@@ -88,7 +90,7 @@ public class Laser : MonoBehaviour {
                     directionToGo = Vector3.Reflect((positions[i] - positions[i - 1]).normalized, hit.normal);
                     directionToGo.y = 0;
                     direction = transform.TransformDirection(directionToGo);
-                    Debug.Log("direction" + i +":" + direction);
+                    //Debug.Log("direction" + i +":" + direction);
                     if (Physics.Raycast(positions[i], direction, out hit, Mathf.Infinity)) {
                         if (hit.collider.tag == "Target") {
                             for (int j = 0; j < targetHit.Length; j++) {
@@ -124,10 +126,20 @@ public class Laser : MonoBehaviour {
     bool laserHitEnd() {
         bool allHit = true;
         for (int i = 0; i < targetHit.Length; i++) {
-            if (targetHit[i] == false) {
-                allHit = false;//
-                break;
+            Material newMaterial;
+            MeshRenderer gameObjectRenderer = GameObject.Find("Circle" + i).GetComponent<MeshRenderer>();
+            if (targetHit[i] == true) {
+                newMaterial = new Material(Resources.Load("TargetHitColor") as Material);
+                gameObjectRenderer.material = newMaterial;
             }
+            else if (targetHit[i] == false) {
+                
+                newMaterial = new Material(Resources.Load("TargetMaterial 2") as Material);
+                gameObjectRenderer.material = newMaterial;
+                //break;
+                allHit = false;//
+            }
+            
         }
         return allHit;
     }
